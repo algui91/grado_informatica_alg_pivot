@@ -1,1 +1,4 @@
-Sample readme file for Pivot project.
+==
+Pivot funtion C++ implementation
+
+Practices from ETSIIT in Granada
