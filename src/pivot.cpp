@@ -19,7 +19,7 @@ vector<int> A(SIZE, 0);
 
 int
 getRandom() {
-	return rand() % 1024;
+	return rand() % 10;
 }
 
 void
@@ -29,8 +29,15 @@ populateVector() {
 
 void swapValue(int a, int b){
 	int temp = A[a];
-	A[a] = b;
+	A[a] = A[b];
 	A[b] = temp;
+}
+
+void
+printArray() {
+	for (std::vector<int>::iterator it = A.begin(); it != A.end(); ++it)
+		std::cout << ' ' << *it;
+	cout << endl;
 }
 
 /**
@@ -41,15 +48,15 @@ pivot(int i, int j, int &l) {
 	int p = A[i]; /* Take as pivot the first element */
 	int k = i;
 
-	l = j + 1;
+	l = j + 1; //FIXME: en el libro pone j + 1, se sale del rango del array
 
-	while( (A[k] > p) | (k >= j) ) k++;
-	while(A[l] <= p) l--;
+	while( (A[k] <= p) | (k < j) ) k++;
+	while(A[l] > p) l--;
 
-	while(k < 1){
+	while(k < l){
 		swapValue(k,l);
-		do k++; while(A[k] > p);
-		do l--; while(A[l] <= p);
+		while(A[k] <= p) k++;
+		while(A[l] > p) l--;
 	}
 	swapValue(i, l);
 }
@@ -62,12 +69,12 @@ select(int s){
 
 	while (l != s){
 		pivot(i, j, l);
+		printArray();
 		if (s < l)
 			j = l-1;
 		else if(s > l)
 			i = l+1;
 	}
-
 
 	return A[l];
 }
@@ -76,14 +83,9 @@ int
 main() {
 	srand(time(NULL));
 	populateVector();
-
-	cout << "This is the vector: " << endl;
-	for (std::vector<int>::iterator it = A.begin(); it != A.end(); ++it)
-		std::cout << ' ' << *it;
-	cout << endl;
-
+	cout << "Original Vector: "; printArray();
 	int s = ceil(SIZE/2);
-	select(s);
+	cout << "Median of A: " << select(s) << endl;
 
 	return 0;
 }
