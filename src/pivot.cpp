@@ -8,46 +8,82 @@
 
 #include <iostream>
 #include <vector>
-#include <cstdlib> /* For RAND_MAX */
 #include <algorithm>
-#include <time.h>
+#include <math.h>
+
+#define SIZE 10
 
 using namespace std;
 
-int getRandom() {
+vector<int> A(SIZE, 0);
+
+int
+getRandom() {
 	return rand() % 1024;
 }
 
-vector<int> A(256, 0);
-
-int
-main()
-{
-	srand(time(NULL));
-
-	//A.reserve(256);
+void
+populateVector() {
 	generate(A.begin(), A.end(), getRandom);
-	for (std::vector<int>::iterator it = A.begin(); it != A.end();
-	                ++it)
-		std::cout << ' ' << *it;
-	std::cout << '\n';
-
-	return 0;
 }
 
-void
-populateVector(vector<int>& a)
-{
-
+void swapValue(int a, int b){
+	int temp = A[a];
+	A[a] = b;
+	A[b] = temp;
 }
 
 /**
  * Find and returns the median of an array
  */
-int
-pivot(int i, int j, int l)
-{
-	int p = 0;
-	int k = 0;
+void
+pivot(int i, int j, int &l) {
+	int p = A[i]; /* Take as pivot the first element */
+	int k = i;
 
+	l = j + 1;
+
+	while( (A[k] > p) | (k >= j) ) k++;
+	while(A[l] <= p) l--;
+
+	while(k < 1){
+		swapValue(k,l);
+		do k++; while(A[k] > p);
+		do l--; while(A[l] <= p);
+	}
+	swapValue(i, l);
+}
+
+int
+select(int s){
+	int i = 1;
+	int j = A.size() - 1;
+	int l = 0;
+
+	while (l != s){
+		pivot(i, j, l);
+		if (s < l)
+			j = l-1;
+		else if(s > l)
+			i = l+1;
+	}
+
+
+	return A[l];
+}
+
+int
+main() {
+	srand(time(NULL));
+	populateVector();
+
+	cout << "This is the vector: " << endl;
+	for (std::vector<int>::iterator it = A.begin(); it != A.end(); ++it)
+		std::cout << ' ' << *it;
+	cout << endl;
+
+	int s = ceil(SIZE/2);
+	select(s);
+
+	return 0;
 }
