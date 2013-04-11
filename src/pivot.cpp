@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <math.h>
 
-#define SIZE 10
+#define SIZE 7
 
 using namespace std;
 
@@ -48,7 +48,7 @@ pivot(int i, int j, int &l) {
 	int p = A[i]; /* Take as pivot the first element */
 	int k = i;
 
-	l = j + 1; //FIXME: en el libro pone j + 1, se sale del rango del array
+	l = j;
 
 	while( (A[k] <= p) | (k < j) ) k++;
 	while(A[l] > p) l--;
@@ -63,7 +63,7 @@ pivot(int i, int j, int &l) {
 
 int
 select(int s){
-	int i = 1;
+	int i = 0;
 	int j = A.size() - 1;
 	int l = 0;
 
