@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <math.h>
 
-#define SIZE 7
+#define SIZE 10
 
 using namespace std;
 
@@ -50,8 +50,8 @@ pivot(int i, int j, int &l) {
 
 	l = j;
 
-	while( (A[k] <= p) | (k < j) ) k++;
-	while(A[l] > p) l--;
+	do k++; while( (A[k] <= p) | (k < j) );
+	do l--; while(A[l] > p);
 
 	while(k < l){
 		swapValue(k,l);
