@@ -3,7 +3,7 @@
 // Author      : Alejandro Alcalde <algui91@gmail.com>
 // Version     :
 // Copyright   : GPLv3
-// Description : Hello World in C++, Ansi-style
+// Description : Pivot, Ansi-style
 //============================================================================
 
 #include <iostream>
@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <math.h>
 
-#define SIZE 10
+#define SIZE 9
 
 using namespace std;
 
@@ -19,7 +19,7 @@ vector<int> A(SIZE, 0);
 
 int
 getRandom() {
-	return rand() % 10;
+	return rand() % 20;
 }
 
 void
@@ -48,15 +48,15 @@ pivot(int i, int j, int &l) {
 	int p = A[i]; /* Take as pivot the first element */
 	int k = i;
 
-	l = j;
+	l = j + 1;
 
-	do k++; while( (A[k] <= p) | (k < j) );
-	do l--; while(A[l] > p);
+	do k++; while( !(A[k] > p || k >= j) );
+	do l--; while(!(A[l] <= p));
 
 	while(k < l){
 		swapValue(k,l);
-		while(A[k] <= p) k++;
-		while(A[l] > p) l--;
+		do k++; while(!(A[k] > p));
+		do l--; while(!(A[l] <= p));
 	}
 	swapValue(i, l);
 }
@@ -67,14 +67,15 @@ select(int s){
 	int j = A.size() - 1;
 	int l = 0;
 
-	while (l != s){
+	do {
 		pivot(i, j, l);
 		printArray();
 		if (s < l)
-			j = l-1;
-		else if(s > l)
-			i = l+1;
+			j = l - 1;
+		else if (s > l)
+			i = l + 1;
 	}
+	while ( !(l == s) );
 
 	return A[l];
 }
