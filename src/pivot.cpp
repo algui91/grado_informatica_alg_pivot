@@ -88,7 +88,7 @@ select(int s){
 int
 crono(int (*func)(int), int s) {
 	struct timeval tv1, tv2; /* gettimeofday() secs-usecs */
-	long tv_usecs; /* y sus cuentas */
+	long tv_usecs; 		 /* y sus cuentas */
 
 	gettimeofday(&tv1, NULL);
 	int result = func(s);
